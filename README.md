@@ -160,5 +160,6 @@ Again... Stuck at 15. At this rate, with 1,000,000 actors to go through, process
 
 #### (1,000,000 actors / 16 at a time) * 16.6667 minutes = 1,041,668.75 minutes which converts to 1.98055 years!
 
+Running the same test for 1,000 being the max count: Elixir finishes in 4 seconds and Scala sluggishly finishes in a pathetic 62 seconds.
 
 I'm aware this comparison may be a bit unfair in that it could be caused by the simple fact in how sleeping works between the two virtual machines. I'm unsure however what a good way to compare the two inserting an artificial delay in the actors when they for whatever reason decide to hog CPU time. With that said, I believe the difference being that the Erlang VM is aware of its actors and so can easily pause them at any point of execution regardless of what its doing (sleep or something else). The JVM and Scala by extension, must wait for the actor to terminate before moving onto another actor, which means once actor contention gets above number of cores * 2, throughput will drop dramatically (or maybe even completely stall). This seems like a surprisingly small limit and may be configurable as I haven't checked.
